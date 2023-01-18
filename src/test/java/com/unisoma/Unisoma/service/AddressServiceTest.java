@@ -41,6 +41,21 @@ class AddressServiceTest {
     }
 
     @Test
+    public void shouldBeReturnSameAddress(){
+        given(repository.existsByLogradouroAndCepAndNumber(address.getLogradouro(), address.getCep(), address.getNumber()
+        )).willReturn(true);
+        given(repository.findByLogradouroAndCepAndNumber(
+                address.getLogradouro(), address.getCep(), address.getNumber())).willReturn(address);
+
+        address = implementation.insertAddress(address);
+
+        verify(repository,times(1)).findByLogradouroAndCepAndNumber(
+                address.getLogradouro(), address.getCep(), address.getNumber());
+        verify(repository,times(1)).existsByLogradouroAndCepAndNumber(
+                address.getLogradouro(), address.getCep(), address.getNumber());
+    }
+
+    @Test
     public void shouldBeFoundAddressById(){
         given(repository.findById(any(UUID.class))).willReturn(Optional.of(address));
 

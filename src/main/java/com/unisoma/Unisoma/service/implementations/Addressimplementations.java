@@ -17,7 +17,23 @@ public class Addressimplementations implements AddressService {
 
     @Override
     public Address insertAddress(Address address) {
-        return addressRepository.save(address);
+        if(verifySameAddress(address)){
+            return addressRepository.findByLogradouroAndCepAndNumber(
+                    address.getLogradouro(), address.getCep(), address.getNumber());
+        }else{
+            return addressRepository.save(address);
+        }
+
+    }
+
+    @Override
+    public boolean verifySameAddress(Address address) {
+        if(addressRepository.existsByLogradouroAndCepAndNumber(
+                address.getLogradouro(), address.getCep(), address.getNumber())){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Override

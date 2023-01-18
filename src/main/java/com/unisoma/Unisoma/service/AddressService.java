@@ -12,6 +12,7 @@ import java.util.UUID;
 public interface AddressService {
 
     public Address insertAddress(Address address);
+    public boolean verifySameAddress(Address address);
     public Address findAddressbyId(UUID id);
     public Address updateAddress(UUID id, Address address);
     public void deleteAddress(UUID id);

@@ -9,4 +9,6 @@ import java.util.UUID;
 @Repository
 public interface AddressRepository extends JpaRepository<Address,UUID> {
 
+    public boolean existsByLogradouroAndCepAndNumber(String logradouro, String cecp, int number);
+    public Address findByLogradouroAndCepAndNumber(String logradouro, String cecp, int number);
 }
