@@ -8,6 +8,7 @@ import com.unisoma.Unisoma.models.dtos.EmployeeNewSalaryDTO;
 import com.unisoma.Unisoma.models.dtos.EmployeeTaxDTO;
 import com.unisoma.Unisoma.repository.EmployeeRepository;
 import com.unisoma.Unisoma.service.implementations.Employeeimplementations;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -37,6 +38,7 @@ class EmployeeimplementationsTest {
     EmployeeTaxDTO empTaxDto = new EmployeeTaxDTO();
 
     @Test
+    @DisplayName("Salva novo funcionario")
     void ShouldBeInsertEmployee() {
         given(repository.existsByCpf(employee.getCpf())).willReturn(false);
         given(repository.save(any(Employee.class))).willReturn(employee);
@@ -49,6 +51,7 @@ class EmployeeimplementationsTest {
     }
 
     @Test
+    @DisplayName("Lanca excessao de cpf ja existente na base de dados")
     void shouldNotInsertEmployeByDuplicateCpf(){
         given(repository.existsByCpf(employee.getCpf())).willReturn(true);
 
@@ -57,6 +60,7 @@ class EmployeeimplementationsTest {
     }
 
     @Test
+    @DisplayName("verifica se o cpf existe na base de dados e retorna true")
     void shouldBeVerifySameCpfAndResponseTrue() {
         given(repository.existsByCpf(employee.getCpf())).willReturn(true);
 
@@ -67,6 +71,7 @@ class EmployeeimplementationsTest {
     }
 
     @Test
+    @DisplayName("Verifica se o cpf existe na base de dados e retorna false")
     void shouldBeVerifySameCpfAndResponseFalse(){
         given(repository.existsByCpf(employee.getCpf())).willReturn(false);
 
@@ -77,6 +82,7 @@ class EmployeeimplementationsTest {
     }
 
     @Test
+    @DisplayName("Atualiza o salario")
     void ShouldBeUpdateSalary() {
         given(repository.existsByCpf(employee.getCpf())).willReturn(true);
         given(repository.findByCpf(employee.getCpf())).willReturn(employee);
@@ -91,6 +97,7 @@ class EmployeeimplementationsTest {
     }
 
     @Test
+    @DisplayName("Testa se o CPF existe na base de dados e retorna um funcionario")
     void ShouldBeVerifyExistsEmployeeByCpfIsTrue() {
         given(repository.existsByCpf(employee.getCpf())).willReturn(true);
         given(repository.findByCpf(employee.getCpf())).willReturn(employee);
@@ -102,6 +109,7 @@ class EmployeeimplementationsTest {
     }
 
     @Test
+    @DisplayName("Verifica se o cpf existe na base de dados e retorna uma excecao")
     void ShouldBeVerifyExistsEmployeeByCpfIsFalse() {
         given(repository.existsByCpf(employee.getCpf())).willReturn(false);
 
@@ -112,6 +120,7 @@ class EmployeeimplementationsTest {
     }
 
     @Test
+    @DisplayName("AUmenta salario 4%")
     void ShouldBeIncreaseSalaryFourPercent() {
         empDTO = implementations.calcNewSalary(empDTO);
 
@@ -119,6 +128,7 @@ class EmployeeimplementationsTest {
     }
 
     @Test
+    @DisplayName("AUmenta salario 7%")
     void ShouldBeIncreaseSalarySevenPercecnt() {
         empDTO.setSalary(1500.00);
         empDTO = implementations.calcNewSalary(empDTO);
@@ -127,6 +137,7 @@ class EmployeeimplementationsTest {
     }
 
     @Test
+    @DisplayName("AUmenta salario 10%")
     void ShouldBeIncreaseSalaryTenPercecnt() {
         empDTO.setSalary(1200.00);
         empDTO = implementations.calcNewSalary(empDTO);
@@ -135,6 +146,7 @@ class EmployeeimplementationsTest {
     }
 
     @Test
+    @DisplayName("AUmenta salario 12%")
     void ShouldBeIncreaseSalaryTwelvePercecnt() {
         empDTO.setSalary(500.00);
         empDTO = implementations.calcNewSalary(empDTO);
@@ -143,6 +155,7 @@ class EmployeeimplementationsTest {
     }
 
     @Test
+    @DisplayName("AUmenta salario 15%")
     void ShouldBeIncreaseSalaryFifteenPercecnt() {
         empDTO.setSalary(100.00);
         empDTO = implementations.calcNewSalary(empDTO);
@@ -151,6 +164,7 @@ class EmployeeimplementationsTest {
     }
 
     @Test
+    @DisplayName("Faz a devolucao do quantro de imposto que tem que pagar")
     void ShouldBeIncomeTax() {
         given(repository.existsByCpf(employee.getCpf())).willReturn(true);
         given(repository.findByCpf(employee.getCpf())).willReturn(employee);
@@ -163,6 +177,7 @@ class EmployeeimplementationsTest {
     }
 
     @Test
+    @DisplayName("Verifica O imposto e retorna isento")
     void ShouldBeIsentTax() {
         employee.setSalary(2000.00);
         empTaxDto = implementations.calcTax(employee);
@@ -171,6 +186,7 @@ class EmployeeimplementationsTest {
     }
 
     @Test
+    @DisplayName("Verifica O imposto e retorna 8% de taxa")
     void ShouldBeEightPercentTax() {
         employee.setSalary(2900.00);
         empTaxDto = implementations.calcTax(employee);
@@ -179,6 +195,7 @@ class EmployeeimplementationsTest {
     }
 
     @Test
+    @DisplayName("Verifica O imposto e retorna 18% de taxa")
     void ShouldBeEighteenPercentTax() {
         employee.setSalary(4328.60);
         empTaxDto = implementations.calcTax(employee);
@@ -187,6 +204,7 @@ class EmployeeimplementationsTest {
     }
 
     @Test
+    @DisplayName("Verifica O imposto e retorna 28% de taxa")
     void ShouldBeTwentyEightPercentTax() {
         employee.setSalary(5000.00);
         empTaxDto = implementations.calcTax(employee);
@@ -195,6 +213,7 @@ class EmployeeimplementationsTest {
     }
 
     @Test
+    @DisplayName("Deleta um funcionario da base de dados")
     void deleteEmployee() {
         given(repository.existsByCpf(employee.getCpf())).willReturn(true);
         given(repository.findByCpf(employee.getCpf())).willReturn(employee);

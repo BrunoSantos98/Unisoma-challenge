@@ -43,6 +43,7 @@ class AddressServiceTest {
     }
 
     @Test
+    @DisplayName("Retorna endereco ja salvo na base de dados, mesmo que fora solicitado um novo salvamento")
     public void shouldBeReturnSameAddress(){
         given(repository.existsByLogradouroAndCepAndNumber(address.getLogradouro(), address.getCep(), address.getNumber()
         )).willReturn(true);
@@ -58,6 +59,7 @@ class AddressServiceTest {
     }
 
     @Test
+    @DisplayName("Encontra um endereco por id")
     public void shouldBeFoundAddressById(){
         given(repository.findById(any(UUID.class))).willReturn(Optional.of(address));
 
@@ -67,6 +69,7 @@ class AddressServiceTest {
     }
 
     @Test
+    @DisplayName("nao encontra endereco atraves de um id")
     public void shouldBeEntityNotFoundException(){
         given(repository.findById(any(UUID.class))).willReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class,() -> implementation.findAddressbyId(address.getAddressId()));
@@ -75,6 +78,7 @@ class AddressServiceTest {
     }
 
     @Test
+    @DisplayName("Deleta um endereco na base de dados")
     public void shouldBeDeleteAddress(){
         given(repository.save(any(Address.class))).willReturn(address);
         given(repository.findById(any(UUID.class))).willReturn(Optional.of(address));
@@ -86,6 +90,7 @@ class AddressServiceTest {
     }
 
     @Test
+    @DisplayName("Atualiza um endereco na base de dados")
     public void shouldBeUpdatedAddress(){
         given(repository.findById(any(UUID.class))).willReturn(Optional.of(address));
         given(repository.save(any(Address.class))).willReturn(address);

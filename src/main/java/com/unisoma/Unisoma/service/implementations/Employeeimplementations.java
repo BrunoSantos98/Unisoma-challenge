@@ -5,6 +5,7 @@ import com.unisoma.Unisoma.exceptions.EntityNotFoundException;
 import com.unisoma.Unisoma.models.Employee;
 import com.unisoma.Unisoma.models.dtos.EmployeeNewSalaryDTO;
 import com.unisoma.Unisoma.models.dtos.EmployeeTaxDTO;
+import com.unisoma.Unisoma.repository.AddressRepository;
 import com.unisoma.Unisoma.repository.EmployeeRepository;
 import com.unisoma.Unisoma.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class Employeeimplementations implements EmployeeService {
     @Override
     public String insertEmployee(Employee employee) {
         if(verifySameCpf(employee.getCpf())){
-            throw new CpfRegisteredException("Cpf  ja cadastradom na base  dee dados, por favor tente novamente com outro cpf");
+            throw new CpfRegisteredException("Cpf  ja cadastrado na base  dee dados, por favor tente novamente com outro cpf");
         }else {
             employeeRepository.save(employee);
             return "Funcionario cadastrado com sucesso";
@@ -34,13 +35,20 @@ public class Employeeimplementations implements EmployeeService {
 
     @Override
     public EmployeeNewSalaryDTO updateSalary(String cpf) {
+
             Employee employee = verifyExistsEmployeeByCpf(cpf);
             EmployeeNewSalaryDTO empSalaryDTO = new EmployeeNewSalaryDTO();
 
             empSalaryDTO.convert(employee);
             empSalaryDTO = calcNewSalary(empSalaryDTO);
-            employee.setSalary(empSalaryDTO.getSalary());
+
+            String increaseEmplyeeSalaryString = String.format("%.2f",empSalaryDTO.getSalary());
+            employee.setSalary(Double.parseDouble(increaseEmplyeeSalaryString.replace(',','.')));
             employeeRepository.save(employee);
+
+            String increaseReadjustment = String.format("%.2f",empSalaryDTO.getReadjustment());
+            empSalaryDTO.setSalary(employee.getSalary());
+            empSalaryDTO.setReadjustment(Double.parseDouble(increaseReadjustment.replace(',','.')));
             return empSalaryDTO;
 
     }

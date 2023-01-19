@@ -27,7 +27,7 @@ public class Employee implements Serializable {
     private Date birthDate;
     @Column(nullable = false,length = 11)
     private String phone;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "employee_address_address_id")
     private Address employeeAddress;
     @Column(nullable = false)
