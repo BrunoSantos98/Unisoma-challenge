@@ -4,6 +4,7 @@ import com.unisoma.Unisoma.exceptions.EntityNotFoundException;
 import com.unisoma.Unisoma.models.Address;
 import com.unisoma.Unisoma.repository.AddressRepository;
 import com.unisoma.Unisoma.service.implementations.Addressimplementations;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -31,6 +32,7 @@ class AddressServiceTest {
     Address address = new Address(UUID.randomUUID(),"pracinha da se","se","01001010",14,sp,sp);
 
     @Test
+    @DisplayName("Deve salvar corretamente o endereco na base de dados")
     public void shouldBeinsertNewAddress(){
         given(repository.save(any(Address.class))).willReturn(address);
 
@@ -66,7 +68,10 @@ class AddressServiceTest {
 
     @Test
     public void shouldBeEntityNotFoundException(){
+        given(repository.findById(any(UUID.class))).willReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class,() -> implementation.findAddressbyId(address.getAddressId()));
+
+        verify(repository,times(1)).findById(address.getAddressId());
     }
 
     @Test

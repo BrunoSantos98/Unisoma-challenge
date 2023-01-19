@@ -6,10 +6,12 @@ import com.unisoma.Unisoma.repository.AddressRepository;
 import com.unisoma.Unisoma.service.AddressService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class Addressimplementations implements AddressService {
 
     @Autowired
@@ -28,12 +30,8 @@ public class Addressimplementations implements AddressService {
 
     @Override
     public boolean verifySameAddress(Address address) {
-        if(addressRepository.existsByLogradouroAndCepAndNumber(
-                address.getLogradouro(), address.getCep(), address.getNumber())){
-            return true;
-        }else{
-            return false;
-        }
+        return addressRepository.existsByLogradouroAndCepAndNumber(
+                address.getLogradouro(), address.getCep(), address.getNumber());
     }
 
     @Override

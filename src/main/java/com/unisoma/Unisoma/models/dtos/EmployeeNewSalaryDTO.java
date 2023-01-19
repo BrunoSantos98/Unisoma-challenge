@@ -1,18 +1,29 @@
-package com.unisoma.Unisoma.models;
+package com.unisoma.Unisoma.models.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.unisoma.Unisoma.models.Employee;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter @Setter
 public class EmployeeNewSalaryDTO {
 
-    private Long cpf;
+    @JsonProperty("CPF")
+    private String cpf;
+    @JsonProperty("Novo salario")
     private Double salary;
+    @JsonProperty("Reajuste ganho")
     private double readjustment;
+    @JsonProperty("Em percentual")
     private int percent;
+
+    public EmployeeNewSalaryDTO() {
+    }
 
     public EmployeeNewSalaryDTO convert(Employee employee){
         BeanUtils.copyProperties(employee,this,"employeId","name", "birthDate","phone","employeeAddress");
@@ -28,4 +39,10 @@ public class EmployeeNewSalaryDTO {
         return empListDTO;
     }
 
+    public EmployeeNewSalaryDTO(String cpf, Double salary, Double readjustment, int percent) {
+        this.cpf = cpf;
+        this.salary = salary;
+        this.readjustment = readjustment;
+        this.percent = percent;
+    }
 }

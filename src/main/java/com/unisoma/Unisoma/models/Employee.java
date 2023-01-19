@@ -20,6 +20,8 @@ public class Employee implements Serializable {
     private UUID employeId;
     @Column(nullable = false,length = 120)
     private String name;
+    @Column(nullable = false,length = 14)
+    private String cpf;
     @Column(nullable = false,length = 10)
     @JsonFormat(pattern ="dd/MM/yyyy")
     private Date birthDate;
@@ -34,17 +36,12 @@ public class Employee implements Serializable {
     public Employee() {
     }
 
-    public Employee(String name, Date birthDate, String phone, Address employeeAddress, double salary) {
-        this.name = name;
-        this.birthDate = birthDate;
-        this.phone = phone;
-        this.employeeAddress = employeeAddress;
-        this.salary = salary;
-    }
 
-    public Employee(UUID employeId, String name, Date birthDate, String phone, Address employeeAddress, double salary) {
+
+    public Employee(UUID employeId, String name, String cpf, Date birthDate, String phone, Address employeeAddress, double salary) {
         this.employeId = employeId;
         this.name = name;
+        this.cpf = cpf;
         this.birthDate = birthDate;
         this.phone = phone;
         this.employeeAddress = employeeAddress;
