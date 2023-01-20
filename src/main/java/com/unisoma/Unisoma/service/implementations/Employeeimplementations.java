@@ -100,23 +100,19 @@ public class Employeeimplementations implements EmployeeService {
     public EmployeeTaxDTO calcTax(Employee employee) {
         EmployeeTaxDTO empTaxDTO = new EmployeeTaxDTO();
         empTaxDTO.setCpf(employee.getCpf());
-        double tax;
-        double eigthPercent = 0.08;
-        double eighteenPercent = 0.18;
-        double twentyEightPercent = 0.28;
+        float eigthPercent = 0.08F;
+        float eighteenPercent = 0.18F;
+        float twentyEightPercent = 0.28F;
 
         if(employee.getSalary() > 4500.00){
-            tax =  1000 * eigthPercent + 1500 * eighteenPercent + ((employee.getSalary() - 4500) * twentyEightPercent);
+            empTaxDTO.setTax("Imposto: R$ " + String.format("%.2f",
+                    1000 * eigthPercent + 1500 * eighteenPercent + ((employee.getSalary() - 4500) * twentyEightPercent)));
         }else if(employee.getSalary() > 3000.00){
-            tax = 1000 * eigthPercent + ((employee.getSalary() - 3000) * eighteenPercent);
+            empTaxDTO.setTax("Imposto: R$ " + String.format("%.2f",
+                    1000 * eigthPercent + ((employee.getSalary() - 3000) * eighteenPercent)));
         }else if(employee.getSalary() > 2000.00){
-            tax = (employee.getSalary()-2000) * eigthPercent;
-        }else{
-            tax = 0;
-        }
-
-        if(tax > 0){
-            empTaxDTO.setTax("Imposto: R$ " + String.format("%.2f",tax));
+            empTaxDTO.setTax("Imposto: R$ " + String.format("%.2f",
+                    (employee.getSalary()-2000) * eigthPercent));
         }else{
             empTaxDTO.setTax("Isento");
         }
